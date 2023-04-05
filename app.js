@@ -1,12 +1,13 @@
 //載入相關模組
 const express = require("express");
 const exphbs = require("express-handlebars");
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 const app = express();
 const PORT = 3000;
+const Users = require("./models/users");
 
-if(process.env.NODE_ENV !== 'production'){
-  require('dotenv').config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
 }
 
 //connect to MongoDB
@@ -38,16 +39,17 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-  const loginInf = req.body;
-  const user = users.find(
-    (u) => u.email === loginInf.email && u.password === loginInf.password
-  );
-  if (user) {
-    res.render("index", { firstName: user.firstName });
-  } else {
-    const errorMessage = `Wrong email or password, please try again.`;
-    res.render("login", { errorMessage });
-  }
+  const { email, password } = req.body;
+  Users.findOne({ email, password })
+    .then((user) => {
+      if (user) {
+        res.render("index", { firstName: user.firstName });
+      } else {
+        const errorMessage = `Wrong email or password, please try again.`;
+        res.render("login", { errorMessage });
+      }
+    })
+    .catch((e) => console.log(e));
 });
 
 //監聽伺服器
