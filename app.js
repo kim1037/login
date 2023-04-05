@@ -1,7 +1,6 @@
 //載入相關模組
 const express = require("express");
 const exphbs = require("express-handlebars");
-const mongoose = require("mongoose");
 const routes = require("./routes");
 const app = express();
 const PORT = 3000;
