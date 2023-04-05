@@ -4,15 +4,57 @@ const exphbs = require("express-handlebars");
 const app = express();
 const PORT = 3000;
 
+const users = [
+  {
+    firstName: "Tony",
+    email: "tony@stark.com",
+    password: "iamironman",
+  },
+  {
+    firstName: "Steve",
+    email: "captain@hotmail.com",
+    password: "icandothisallday",
+  },
+  {
+    firstName: "Peter",
+    email: "peter@parker.com",
+    password: "enajyram",
+  },
+  {
+    firstName: "Natasha",
+    email: "natasha@gamil.com",
+    password: "*parol#@$!",
+  },
+  {
+    firstName: "Nick",
+    email: "nick@shield.com",
+    password: "password",
+  },
+];
+
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
+
 //設定樣板引擎
 app.engine("hbs", exphbs({ defaultLayout: "main", extname: "hbs" }));
 app.set("view engine", "hbs");
 
-app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
 //導入路由
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("login");
+});
+
+app.post("/", (req, res) => {
+  const loginInf = req.body;
+  const user = users.find(
+    (u) => u.email === loginInf.email && u.password === loginInf.password
+  );
+  if (user) {
+    res.render("index", { firstName: user.firstName });
+  } else {
+    const errorMessage = `Wrong email or password, please try again.`;
+    res.render("login", { errorMessage });
+  }
 });
 
 //監聽伺服器
