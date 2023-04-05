@@ -1,6 +1,6 @@
 <div class="login d-flex flex-column align-items-center">
   <h1>Account Login</h1>
-  <form action="/" method="post">
+  <form action="/" method="post" style="width: 400px;">
     <div class="mb-3">
       <label for="Email" class="form-label">Email address</label>
       <input
@@ -10,8 +10,6 @@
         placeholder="Email"
         name="email"
       />
-      <div id="emailHelp" class="form-text">We'll never share your email with
-        anyone else.</div>
     </div>
     <div class="mb-3">
       <label for="Password" class="form-label">Password</label>
@@ -23,9 +21,10 @@
         name="password"
       />
     </div>
-    <div class="d-flex justify-content-center mb-3">
+    <div class="d-flex justify-content-center mt-4">
       <button type="submit" class="btn btn-primary">Sign in</button>
     </div>
+
     {{#if errorMessage}}
       <p class="text-danger">{{errorMessage}}</p>
     {{/if}}
