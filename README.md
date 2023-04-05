@@ -4,6 +4,8 @@
 
 ## Screenshot - 畫面截圖
 
+![image](https://user-images.githubusercontent.com/107454420/230148050-39c99fc1-66ea-431f-a5f7-320838d2eaf8.png)
+
 ## Features - 功能
 
 1. 使用者可以輸入帳號及密碼登入網頁
