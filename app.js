@@ -2,9 +2,9 @@
 const express = require("express");
 const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
+const routes = require("./routes");
 const app = express();
 const PORT = 3000;
-const Users = require("./models/users");
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
@@ -25,32 +25,13 @@ db.on("error", () => {
 db.once("open", () => {
   console.log("MongoDB connect success!");
 });
-
-app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
-
 //設定樣板引擎
 app.engine("hbs", exphbs({ defaultLayout: "main", extname: "hbs" }));
 app.set("view engine", "hbs");
 
-//導入路由
-app.get("/", (req, res) => {
-  res.render("login");
-});
-
-app.post("/", (req, res) => {
-  const { email, password } = req.body;
-  Users.findOne({ email, password })
-    .then((user) => {
-      if (user) {
-        res.render("index", { firstName: user.firstName });
-      } else {
-        const errorMessage = `Wrong email or password, please try again.`;
-        res.render("login", { errorMessage });
-      }
-    })
-    .catch((e) => console.log(e));
-});
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
+app.use(routes);
 
 //監聽伺服器
 app.listen(PORT, () => {
